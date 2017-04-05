@@ -1,9 +1,14 @@
 #include "Folder.h"
 #include <iostream>
+
 using namespace std;
+
+//Function Prototypes
 void DisplayMenu(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent);
 void AddFileMenu(shared_ptr<Folder> currentFolder);
 void AddFolderMenu(shared_ptr<Folder> currentFolder);
+void searchForFile(shared_ptr<Folder> currentFolder);
+
 shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder);
 
 int main()
@@ -12,32 +17,39 @@ int main()
 	auto parentFolder = make_shared<Folder>();
 	parentFolder = nullptr;
 	int choice = 0;
-	while (choice != -1) {
+	while (choice != -1)
+		{
 		DisplayMenu(currentFolder, parentFolder);
 		cin >> choice;
+		
 		switch (choice)
-		{
-		case 1: system("cls"); cout << "Contents of " << currentFolder->getName() << currentFolder->ListContents() << endl; system("pause"); break;
-		case 2: AddFileMenu(currentFolder); break;
-		case 3: {
-			auto newcurrent = NavigateToFolder(currentFolder); 
-			parentFolder = currentFolder;
-			currentFolder = newcurrent;
-			cout << endl << "Now in folder " << newcurrent->getName() << "!";
-			break;
-		}
-		case 5: //IMPLEMENT THIS
-		case 4: AddFolderMenu(currentFolder); break;
-		case 6: {
-			if (parentFolder != nullptr) {
-				currentFolder = parentFolder;
-				cout << endl << "Now in folder " << currentFolder->getName() << "!";
+			{
+			case 1: system("cls"); 
+					cout << "Contents of " << currentFolder->getName() << currentFolder->ListContents() << endl;
+					system("pause"); break;
+			case 2: AddFileMenu(currentFolder); break;
+			case 3: 
+				{
+				auto newcurrent = NavigateToFolder(currentFolder); 
+				parentFolder = currentFolder;
+				currentFolder = newcurrent;
+				cout << endl << "Now in folder " << newcurrent->getName() << "!";
+				break;
+				}
+			case 5: searchForFile(currentFolder); break; //Implement this
+			case 4: AddFolderMenu(currentFolder); break;
+			case 6: 
+				{
+				if (parentFolder != nullptr) 
+				{
+					currentFolder = parentFolder;
+					cout << endl << "Now in folder " << currentFolder->getName() << "!";
+				}
+				break;
+				}
+			default: choice = -1; break;
 			}
-			break;
 		}
-		default: choice = -1; break;
-		}
-	}
 	system("pause");
 }
 
@@ -62,7 +74,8 @@ void DisplayMenu(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent)
 	cout << "3) Open" << endl;
 	cout << "4) Add sub folder" << endl;
 	cout << "5) Search For File" << endl;
-	if (parent != nullptr) {
+	if (parent != nullptr) 
+	{
 		cout << "6) Return to [" << parent->getName() << "]";
 	}
 	
@@ -90,4 +103,14 @@ void AddFolderMenu(shared_ptr<Folder> currentFolder)
 
 	auto newFolder = make_shared<Folder>(name);
 	currentFolder->AddFolder(newFolder);
+}
+
+void searchForFile(shared_ptr<Folder> currentFolder)
+{
+	system("cls");
+	cout << "Enter file name: ";
+	string name;
+	cin >> name;
+	cin.ignore();
+
 }
