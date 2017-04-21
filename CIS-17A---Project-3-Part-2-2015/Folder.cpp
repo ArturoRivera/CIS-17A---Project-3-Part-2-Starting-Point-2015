@@ -1,4 +1,6 @@
 #include "Folder.h"
+#include <iostream>
+using namespace std;
 
 Folder::Folder(std::string name) : _name(name)
 {
@@ -22,6 +24,8 @@ std::vector<std::string> Folder::ListFiles()
 	return list;
 }
 
+
+
 std::string Folder::ListContents()
 {
 	std::string output = "\n";
@@ -36,15 +40,21 @@ std::string Folder::ListContents()
 	return output;
 }
 
+
+
 void Folder::AddFile(std::shared_ptr<File> newFile)
 {
 	_files.push_back(newFile);
 }
 
+
+
 void Folder::AddFolder(std::shared_ptr<Folder> newFolder)
 {
 	_folders.push_back(newFolder);
 }
+
+
 
 std::shared_ptr<Folder> Folder::FindFolder(std::string name)
 {
@@ -58,28 +68,34 @@ std::shared_ptr<Folder> Folder::FindFolder(std::string name)
 	return nullptr;
 }
 
-std::shared_ptr<File> Folder::searchForFile(std::string name)
+std::string Folder::searchForFile(std::string name)
 {
-	for (auto folder : _folders)
-	{
-		if (file->getName() == name)
-		{
-			return file;
-		}
-	}
-
-
-	for (auto folder : _folders)
-	{
-		auto file = folder->searchForFile(name);
-		if (file != nullptr)
-		{
-			return file;
-		}
-
-		return nullptr;
-
-	}
+    std::string output;
+    
+    for(auto file : _files)
+    {
+        if(file->getName() == name && _files.size() != 0)
+        {
+            output += "\nFile Found: " + name + "\n" + "Located in folder: " + getName() + "\n";
+            
+            return output;
+        }
+    }
+    
+    
+    for (auto folder : _folders)
+    {
+        auto file = folder->searchForFile(name);
+        if(file != "File Not Found")
+        {
+            return file;
+        }
+    }
+    
+    output += "File Not Found";
+    return output;
+    
+    
 }
 
 
@@ -89,5 +105,3 @@ std::shared_ptr<File> Folder::searchForFile(std::string name)
 //Loop/Iterate this folder's folders
 //Search(each folder in the loop)
 //Otherwise return nullptr
-for (int 1 = 0; i < _folders.size(); i++)
-	auto folder = _folders[i];

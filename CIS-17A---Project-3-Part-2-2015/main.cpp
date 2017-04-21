@@ -7,14 +7,18 @@ using namespace std;
 void DisplayMenu(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent);
 void AddFileMenu(shared_ptr<Folder> currentFolder);
 void AddFolderMenu(shared_ptr<Folder> currentFolder);
+shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent);
 void searchForFile(shared_ptr<Folder> currentFolder);
 
 shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder);
+
+
 
 int main()
 {
 	auto currentFolder = make_shared<Folder>("Root");
 	auto parentFolder = make_shared<Folder>();
+    auto rootPointer = currentFolder;
 	parentFolder = nullptr;
 	int choice = 0;
 	while (choice != -1)
@@ -53,6 +57,8 @@ int main()
 	system("pause");
 }
 
+
+
 shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder) 
 {
 	cout << "Folder Name: ";
@@ -64,22 +70,29 @@ shared_ptr<Folder> NavigateToFolder(shared_ptr<Folder> currentFolder)
 	return folder;
 }
 
+
+
 void DisplayMenu(shared_ptr<Folder> currentFolder, shared_ptr<Folder> parent)
 {
 	system("cls");
 	cout << "Now in " << currentFolder->getName() << endl;
 	cout << "*****************************************" << endl;
-	cout << "1) List folder contents" << endl;	
-	cout << "2) Add file to folder" << endl;
+	cout << "1) List Folder Contents" << endl;
+	cout << "2) Add File to Folder" << endl;
 	cout << "3) Open" << endl;
-	cout << "4) Add sub folder" << endl;
+	cout << "4) Add Subfolder" << endl;
 	cout << "5) Search For File" << endl;
-	if (parent != nullptr) 
+	if (parent == currentFolder)
 	{
+        cout << "6) Return to [Root] Folder";
+    } else if (parent != nullptr)
+        {
 		cout << "6) Return to [" << parent->getName() << "]";
-	}
+        }
 	
 }
+
+
 
 void AddFileMenu(shared_ptr<Folder> currentFolder)
 {
@@ -112,5 +125,8 @@ void searchForFile(shared_ptr<Folder> currentFolder)
 	string name;
 	cin >> name;
 	cin.ignore();
+    
+    cout << currentFolder->searchForFile(name) << endl;
+    system("pause");
 
 }

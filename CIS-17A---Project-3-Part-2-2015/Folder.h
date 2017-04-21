@@ -2,6 +2,8 @@
 #include "File.h"
 #include <memory>
 #include <vector>
+
+
 class Folder
 {
 private:
@@ -11,7 +13,7 @@ private:
 
 public:
 	Folder(std::string name);
-	Folder::Folder();
+	Folder();
 	~Folder();
 
 	std::string getName() { return _name; }
@@ -20,6 +22,6 @@ public:
 	void AddFile(std::shared_ptr<File> newFile);
 	void AddFolder(std::shared_ptr<Folder> newFolder);
 	std::shared_ptr<Folder> FindFolder(std::string name);
-	std::shared_ptr<File> searchForFile(std::string name);
+	std::string searchForFile(std::string name);
 };
 
